@@ -1,0 +1,17 @@
+[tool.poetry]
+authors = ["Your Name <user@example.com>"]
+description = ""
+name = "mypackage"
+packages = [{include = "mypackage", from = "src"}]
+readme = "README.md"
+version = "0.0.dev0"
+
+[tool.poetry.dependencies]
+python = "^3.7"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+
+[build-system]
+build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core>=1.0.0"]
