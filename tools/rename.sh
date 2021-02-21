@@ -35,6 +35,6 @@ git add .
 git commit -m "Initial commit (from https://github.com/Roming22/template-python-package)"
 git remote add origin "${GITHUB_URL}"
 for BRANCH in "release/0.0" "dev"; do
-    git checkout -b "${BRANCH}"
+    git branch --move --force "${BRANCH}"
     git push --set-upstream origin "${BRANCH}"
 done

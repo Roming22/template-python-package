@@ -44,3 +44,7 @@ The version and the upload destination of the package depend on the action that 
 ### Versioning
 
 Versioning for major and minor numbers is handled by creating `release/X.Y` branches. The patch number is automatically generated based on existing releases.
+
+### Makefile
+
+The project uses a `Makefile` as a way to provide quick access to common commands.

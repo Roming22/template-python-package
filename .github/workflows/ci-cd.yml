@@ -47,30 +47,15 @@ jobs:
           date
           pip install poetry
           poetry install
-      - name: Make release
+      - name: Build package
         run: |
           date
-          python tools/releasing/version.py
-          echo "Release: $(python "src/mypackage/__version__.py")"
-          poetry build
-          git tag $(python "src/mypackage/__version__.py")
-      - name: Upload release
+          make package
+      - name: Upload package
         env:
           POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_API_TOKEN }}
           POETRY_PYPI_TOKEN_TESTPYPI: ${{ secrets.TEST_PYPI_API_TOKEN }}
         run: |
           date
-          echo "Uploading: $(python "src/mypackage/__version__.py")"
-          [[ -n "${POETRY_PYPI_TOKEN_PYPI}" ]] || { echo "[ERROR] POETRY_PYPI_TOKEN_PYPI is not set"; exit 1; }
-          [[ -n "${POETRY_PYPI_TOKEN_TESTPYPI}" ]] || { echo "[ERROR] POETRY_PYPI_TOKEN_TESTPYPI is not set"; exit 1; }
-          if [[ "${GITHUB_REF}" = refs/heads/release/* || "${GITHUB_REF}" = "refs/heads/dev" ]]; then
-            git push origin $(python "src/mypackage/__version__.py")
-          fi
-          echo "test.pypi release"
-          poetry config repositories.testpypi "https://test.pypi.org/simple"
-          poetry publish -v --repository testpypi
-          if [[ "${GITHUB_REF}" = refs/heads/release/* && "${GITHUB_EVENT_NAME}" == "push" ]]; then
-            echo "pypi release"
-            poetry publish
-          fi
+          make upload
           date
