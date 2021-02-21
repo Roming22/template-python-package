@@ -1,0 +1,74 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - dev
+      - release/*
+  pull_request:
+    branches:
+      - dev
+      - release/*
+
+jobs:
+  CI:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: [3.8, 3.9]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install packages
+        run: |
+          date
+          pip install poetry
+          poetry install
+      - name: Run tests
+        run: |
+          date
+          poetry run pytest
+          date
+  CD:
+    needs: CI
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.x"
+      - name: Install packages
+        run: |
+          date
+          pip install poetry
+          poetry install
+      - name: Make release
+        run: |
+          date
+          python tools/releasing/version.py
+          echo "Release: $(python "src/mypackage/__version__.py")"
+          poetry build
+          git tag $(python "src/mypackage/__version__.py")
+      - name: Upload release
+        env:
+          POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_API_TOKEN }}
+          POETRY_PYPI_TOKEN_TESTPYPI: ${{ secrets.TEST_PYPI_API_TOKEN }}
+        run: |
+          date
+          echo "Uploading: $(python "src/mypackage/__version__.py")"
+          if [[ "${GITHUB_REF}" = refs/heads/release/* || "${GITHUB_REF}" = "refs/heads/dev" ]]; then
+            echo git push origin $(python "src/mypackage/__version__.py")
+          fi
+          echo "test.pypi release"
+          poetry config repositories.testpypi https://test.pypi.org/simple
+          echo poetry publish -r testpypi
+          if [[ "${GITHUB_REF}" = refs/heads/release/* && "${GITHUB_EVENT_NAME}" == "push" ]]; then
+            echo "pypi release"
+            poetry publish
+          fi
+          date
