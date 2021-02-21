@@ -41,7 +41,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
-          python-version: "3.x"
+          python-version: "3.8"
       - name: Install packages
         run: |
           date
@@ -61,12 +61,14 @@ jobs:
         run: |
           date
           echo "Uploading: $(python "src/mypackage/__version__.py")"
+          [[ -n "${POETRY_PYPI_TOKEN_PYPI}" ]] || { echo "[ERROR] POETRY_PYPI_TOKEN_PYPI is not set"; exit 1; }
+          [[ -n "${POETRY_PYPI_TOKEN_TESTPYPI}" ]] || { echo "[ERROR] POETRY_PYPI_TOKEN_TESTPYPI is not set"; exit 1; }
           if [[ "${GITHUB_REF}" = refs/heads/release/* || "${GITHUB_REF}" = "refs/heads/dev" ]]; then
-            echo git push origin $(python "src/mypackage/__version__.py")
+            git push origin $(python "src/mypackage/__version__.py")
           fi
           echo "test.pypi release"
-          poetry config repositories.testpypi https://test.pypi.org/simple
-          echo poetry publish -r testpypi
+          poetry config repositories.testpypi "https://test.pypi.org/simple"
+          poetry publish -v --repository testpypi
           if [[ "${GITHUB_REF}" = refs/heads/release/* && "${GITHUB_EVENT_NAME}" == "push" ]]; then
             echo "pypi release"
             poetry publish
