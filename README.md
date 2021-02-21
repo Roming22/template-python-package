@@ -4,7 +4,7 @@
 
 ### Prepare GitHub
 
-- Fork the project on [github.com](https://github.com/).
+- Create a new project on [github.com](https://github.com/).
 - Open the repository `Settings`.
 - Click on `Secrets`.
 - Click on `New repository secret`
@@ -22,12 +22,14 @@
 - Create an account on [pypi.org](https://pypi.org/) (the name can be the same as for `test.pypi.org`) and create a new token.
 - Create a new secret, using `Name`: `PYPI_API_TOKEN`, and cpoy the token into  `Value`.
 
-### Create a new package
+### Create a new package from this template project
 
-- Follow the instructions in `CONTRIBUTING.md` to setup the project, using your fork URL during the clone.
+- Follow the instructions in `CONTRIBUTING.md` to setup the project.
 - Run `tools/rename.sh`.
-- Run `poetry run pytest` again to validate that everything is working as designed.
-- Push to your fork to check that the CI/CD is working OK.
+- Open your project on Github.
+- Click on `Actions`.
+- Check that the CI/CD workflow completed successfully.
+- Check that you can see your package in PyPi.
 
 ## Architecture
 
@@ -35,6 +37,10 @@
 
 Whenever pull request is opened against the fork or a new changeset is pushed on the fork (including when a pull request is merged), the CI/CD will run.
 
-The CI will make sure that the project state is valid, and the CD will upload the corresponding package.
+The CI will make sure that the project state is valid, and the CD will upload the corresponding package without any action from the user.
 
-The version and destination of the package depends on the action that triggered the CI/CD as well as the branch on which this action was triggered. All branches will upload to `test.pypi.org`, and `release/x.y` branches will also upload to `pypi.org`.
+The version and the upload destination of the package depend on the action that triggered the CI/CD as well as the branch on which this action was triggered. All branches will upload to `test.pypi.org`, but `release/X.Y` branches will also upload to `pypi.org`.
+
+### Versioning
+
+Versioning for major and minor numbers is handled by creating `release/X.Y` branches. The patch number is automatically generated based on existing releases.

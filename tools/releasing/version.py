@@ -98,6 +98,17 @@ def generate_version() -> None:
         )
     )
 
+    # Update pyproject.toml
+    run(
+        [
+            "sed",
+            "-i",
+            "-e",
+            f"s:0.0.dev0:{version}:",
+            repo_path.joinpath("pyproject.toml"),
+        ]
+    )
+
 
 if __name__ == "__main__":
     generate_version()
