@@ -45,7 +45,7 @@
 ### File system organization
 
 - `src`: the source code of the application, and nothing more.
-- `tools`: anything else that's required to make the project work but is not a part of the application. This may include source code, shell scripts, configuration files, etc...
+- `tools`: anything else that's required to make the project work but is not a part of the application. This may include source code, shell scripts, configuration files, etc. `tooling` is used to explicitely link the various configuration files to the software that requires it.
 - `tests`: holds tests that can be run with `pytest`.
 
 ### CI/CD
