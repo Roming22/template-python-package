@@ -137,3 +137,10 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
+################################################################################
+# Project
+################################################################################
+
+# Coverage
+tools/qa/coverage/html/*
+tools/qa/coverage/report.txt
