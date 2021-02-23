@@ -5,6 +5,7 @@
   - [Create a new package from this template project](#create-a-new-package-from-this-template-project)
 - [Architecture](#architecture)
   - [File system organization](#file-system-organization)
+  - [Quality Assurance](#quality-assurance)
   - [CI/CD](#cicd)
   - [Versioning](#versioning)
   - [Makefile](#makefile)
@@ -47,6 +48,25 @@
 - `src`: the source code of the application, and nothing more.
 - `tools`: anything else that's required to make the project work but is not a part of the application. This may include source code, shell scripts, configuration files, etc. `tooling` is used to explicitely link the various configuration files to the software that requires it.
 - `tests`: holds tests that can be run with `pytest`.
+
+### Quality Assurance
+
+#### Formatting
+
+- python: [isort](https://github.com/PyCQA/isort) and [black](https://github.com/psf/black).
+
+#### Linting
+
+- python: [pylint](https://www.pylint.org/).
+- shell scripts: [shellcheck](https://github.com/koalaman/shellcheck).
+
+#### Testing
+
+- python: [pytest](https://github.com/pytest-dev/pytest/), with [pytest-cov](https://github.com/pytest-dev/pytest-cov) to handle coverage and [pytest-xdist](https://github.com/ohmu/pytest-xdist) to handle parallelization.
+
+#### Type checking
+
+- python: [mypy](https://github.com/python/mypy)
 
 ### CI/CD
 
