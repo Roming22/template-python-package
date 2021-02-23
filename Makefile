@@ -4,6 +4,7 @@ format:
 install: poetry.lock
 	command -v poetry || pip install poetry
 	poetry install
+	make test_src || true
 
 test: test_src test_qa
 
