@@ -1,6 +1,9 @@
 """Stub module"""
 
-def get_class_name(obj):
+from typing import Any
+
+
+def get_class_name(obj: Any) -> str:
     """Get the class name of object
 
     Running tests after adding breakpoints should allow the user
