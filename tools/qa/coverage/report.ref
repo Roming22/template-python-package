@@ -1,0 +1,8 @@
+Python 3.8
+Name                           Stmts   Miss  Cover
+--------------------------------------------------
+src/mypackage/__init__.py          1      0   100%
+src/mypackage/__version__.py       4      1    75%
+src/mypackage/mymodule.py          5      0   100%
+--------------------------------------------------
+TOTAL                             10      1    90%
